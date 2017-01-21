@@ -9,6 +9,8 @@
 
 # Compiled or generated source #
 ################################
+*.a
+*.o
 *.dll
 *.exe
 *.obj

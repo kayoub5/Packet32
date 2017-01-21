@@ -15,14 +15,8 @@ Anyways I created this port to come after this. Mainly for myself, but, whatever
 
 1. Clone the repo
 
-2. Backup the these files: `winpcap\wpcap\libpcap\Win32\Include\net\netdb.h`, `winpcap\wpcap\libpcap\inet.c` and `winpcap\wpcap\libpcap\pcap-win32.c`
+2. Open file `winpcap\install\release procedures.txt` and follow steps 18. - 22.
 
-3. Open the file `release procedures.txt` and follow steps 11. - 14.
-
-4. Put backed up files from step 2 back to original folder
-
-5. Follow steps 18. - 22.
-
-6. Done
+3. Done
 
 **Note: The linker flag --high-entropy-va I added in both GNUmakefiles is for x64 only! Remove them when you're building for x86!**
