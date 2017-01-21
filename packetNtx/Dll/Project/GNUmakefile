@@ -7,7 +7,7 @@ OPTFLAGS = -O -mwin32
 
 
 CFLAGS = -Wall -DWIN32_LEAN_AND_MEAN -I ../../../common -shared ${OPTFLAGS} -I..
-LDFLAGS = -Wl,--high-entropy-va -Wl,--dynamicbase -Xlinker --nxcompat -Wl,--out-implib,libpacket.a
+LDFLAGS = -Wl,--high-entropy-va -Wl,--out-implib,libpacket.a
 OBJS = ../Packet32.o ../AdInfo.o
 LIBS = -lws2_32 -lversion
 

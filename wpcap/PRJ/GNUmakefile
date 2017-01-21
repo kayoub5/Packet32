@@ -40,7 +40,7 @@ CFLAGS =-Wall -DWIN32_LEAN_AND_MEAN -I ../libpcap -I ../libpcap/bpf -I ../libpca
 	-DHAVE_LIMITS_H \
 	-DYY_NO_UNISTD_H \
 	-shared ${OPTFLAGS}
-LDFLAGS = -Wl,--allow-multiple-definition -Wl,--high-entropy-va -Wl,--dynamicbase -Xlinker --nxcompat -Wl,--out-implib,../lib/libwpcap.a
+LDFLAGS = -Wl,--allow-multiple-definition -Wl,--high-entropy-va -Wl,--out-implib,../lib/libwpcap.a
 LIBS = -L ../../${PACKET_DIR}/Dll/Project -lpacket -lws2_32
 OBJS = ../libpcap/bpf/net/bpf_filter.o \
 	../libpcap/bpf_dump.o \
