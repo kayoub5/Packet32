@@ -6,7 +6,7 @@ SYSTYPE = "NT"
 # SYSTYPE = "9x"
 
 # OPTFLAGS = -g
-OPTFLAGS = -O
+OPTFLAGS = -O -mwin32
 # DO _NOT_ USE -O2! Causes fault upon startup.
 
 #
@@ -14,6 +14,8 @@ OPTFLAGS = -O
 # used by the generated parser.  This allows programs to use lex/yacc
 # and link against libpcap.  If you don't have flex or bison, get them.
 #
+CC = gcc
+
 LFLAGS = -Ppcap_
 YFLAGS = -y -p pcap_
 
@@ -23,7 +25,7 @@ BISON = bison
 PACKET_DIR = packetNtx
 INSTALL_DIR = ${SYSTEMROOT}\system32
 
-CFLAGS = -I ../libpcap -I ../libpcap/bpf -I ../libpcap/lbl \
+CFLAGS =-Wall -DWIN32_LEAN_AND_MEAN -I ../libpcap -I ../libpcap/bpf -I ../libpcap/lbl \
 	-I ../libpcap/Win32/Include -I../libpcap/Win32/Include/ipv6kit \
 	-I ../../Common -I ../Win32-Extensions \
 	-I ../../../AirPcap_DevPack/include \
@@ -37,8 +39,8 @@ CFLAGS = -I ../libpcap -I ../libpcap/bpf -I ../libpcap/lbl \
 	-DHAVE_ADDRINFO \
 	-DHAVE_LIMITS_H \
 	-DYY_NO_UNISTD_H \
-	-mno-cygwin -shared ${OPTFLAGS}
-LDFLAGS = -Wl,--out-implib,../lib/libwpcap.a
+	-shared ${OPTFLAGS}
+LDFLAGS = -Wl,--allow-multiple-definition -Wl,--high-entropy-va -Wl,--dynamicbase -Xlinker --nxcompat -Wl,--out-implib,../lib/libwpcap.a
 LIBS = -L ../../${PACKET_DIR}/Dll/Project -lpacket -lws2_32
 OBJS = ../libpcap/bpf/net/bpf_filter.o \
 	../libpcap/bpf_dump.o \

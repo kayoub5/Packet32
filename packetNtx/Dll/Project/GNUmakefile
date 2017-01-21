@@ -2,11 +2,12 @@
 # Nate Lawson <nate@rootlabs.com>
 
 # OPTFLAGS = -g -DDBG 
-OPTFLAGS = -O -D_WINNT4
+OPTFLAGS = -O -mwin32
 # I am suspicious of -O2 since it hosed wpcap.dll. To be safe, use -O only
 
-CFLAGS = -I ../../../common -shared -mno-cygwin ${OPTFLAGS} -I..
-LDFLAGS = -Wl,--out-implib,libpacket.a
+
+CFLAGS = -Wall -DWIN32_LEAN_AND_MEAN -I ../../../common -shared ${OPTFLAGS} -I..
+LDFLAGS = -Wl,--high-entropy-va -Wl,--dynamicbase -Xlinker --nxcompat -Wl,--out-implib,libpacket.a
 OBJS = ../Packet32.o ../AdInfo.o
 LIBS = -lws2_32 -lversion
 
