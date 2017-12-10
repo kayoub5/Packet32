@@ -1,0 +1,13 @@
+*
+
+# ls -R --group-directories-first | awk '
+# /:$/&&f{s=$0;f=0}
+# /:$/&&!f{sub(/:$/,"");s=$0;f=1;next}
+# NF&&f{ print s"/"$0 }' | awk '$0="!"$0' >> .gitignore
+
+!.gitignore
+!./Win32-Extensions/Win32-Extensions.c
+!./Win32-Extensions/Win32-Extensions.h
+!./Win32-Extensions/version.aps
+!./Win32-Extensions/version.rc
+!./Win32-Extensions/version.rc2
