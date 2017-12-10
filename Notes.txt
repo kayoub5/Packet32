@@ -1,0 +1,52 @@
+https://github.com/dokan-dev/dokany/wiki/Build +1
+
+
+Netmon and npptools.dll are no longer part of Windows Vista. You can get Netmon 3.0 as a standalone from http://connect.microsoft.com. For more info, their blog is at http://blogs.technet.com/netmon/.
+
+https://stackoverflow.com/questions/10727568/cannot-convert-parameter-1-from-const-char-to-lpcwstr
+Most of the Windows APIs that take strings have two versions: one that takes char * and one that takes WCHAR * (that latter is equivalent to wchar_t *).
+
+SetWindowText, for example, is actually a macro that expands to either SetWindowTextA (which takes char *) or SetWindowTextW (which takes WCHAR *).
+
+In your project, it sounds like all of these macros are referencing the -W versions. This is controlled by the UNICODE preprocessor macro (which is defined if you choose the "Use Unicode Character Set" project option in Visual Studio). (Some of Microsoft's C and C++ run time library functions also have ANSI and wide versions. Which one you get is selected by the similarly-named _UNICODE macro that is also defined by that Visual Studio project setting.)
+
+Typically, both of the -A and -W functions exist in the l
+
+/showIncludes
+=============
+https://msdn.microsoft.com/en-us/library/hdkef6tk.aspx
+When an include file is encountered during compilation, a message is output, for example:
+Note: including file: d:\MyDir\include\stdio.h
+
+Nested include files are indicated by an indentation, one space for each level of nesting, for example:
+Note: including file: d:\temp\1.h
+Note: including file:  d:\temp\2.h
+
+
+inet_addr() is deprecated because it doesn't handle IPv6! Use inet_ntop() or inet_pton() instead!
+
+
+NDIS6X
+WIN_NT_DRIVER
+NPF_NPCAP_RUN_IN_WINPCAP_MODE
+HAVE_WFP_LOOPBACK_SUPPORT
+HAVE_RX_SUPPORT
+HAVE_DOT11_SUPPORT
+POOL_NX_OPTIN=1
+DBG=1
+_X86_=1
+i386=1
+STD_CALL
+%(PreprocessorDefinitions)
+WIN_VER=0x0600
+_WIN32_WINNT=0x0600
+NTDDI_VERSION=0x06000100
+
+HAVE_CONFIG_H;NPF_NPCAP_RUN_IN_WINPCAP_MODE;WIN_NT_DRIVER;HAVE_WFP_LOOPBACK_SUPPORT;NDIS6X;HAVE_RX_SUPPORT;HAVE_DOT11_SUPPORT;POOL_NX_OPTIN;DBG;%(PreprocessorDefinitions)
+
+wdmsec.lib
+ndis.lib
+Ntstrsafe.lib
+$(DDK_LIB_PATH)\fwpkclnt.lib
+$(SDK_LIB_PATH)\uuid.lib
+$(DDK_LIB_PATH)\netio.lib
