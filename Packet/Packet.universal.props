@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)$(Platform)\$(ConfigurationName)\</OutDir>
+    <IntDir>$(Platform)\$(ConfigurationName)\$(MSBuildProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <TargetVersion>Windows7</TargetVersion>
+    <DriverTargetPlatform>Desktop</DriverTargetPlatform>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..;$(ProjectDir)include;$(ProjectDir)..\Common;$(ProjectDir)..\npf\include;$(ProjectDir)..\..\AirPcap_devpack\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <PreprocessorDefinitions>HAVE_CONFIG_H;NPF_NPCAP_RUN_IN_WINPCAP_MODE;HAVE_IPHELPER_API;_DEBUG_TO_FILE;NDIS6X;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">_DBG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(MSBuildProjectName)'=='libPacket'">_WINLIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <ModuleDefinitionFile>$(ProjectDir)packet.def</ModuleDefinitionFile>
+      <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AdInfo.cpp" />
+    <ClCompile Include="netcfgapi.cpp" />
+    <ClCompile Include="NpfImExt.cpp" />
+    <ClCompile Include="Packet32.cpp" />
+    <ClCompile Include="ProtInstall.cpp" />
+    <ClCompile Include="..\npf\win_bpf_filter.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\config.h" />
+    <ClInclude Include="include\debug.h" />
+    <ClInclude Include="include\netcfgapi.h" />
+    <ClInclude Include="include\NpfImExt.h" />
+    <ClInclude Include="..\Common\Packet32.h" />
+    <ClInclude Include="include\Packet32-Int.h" />
+    <ClInclude Include="include\ProtInstall.h" />
+    <ClInclude Include="..\npf\include\win_bpf.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\version.rc" />
+  </ItemGroup>
+  <ItemGroup />
+</Project>

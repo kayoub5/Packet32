@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="Configuration">
+    <TargetVersion>Windows7</TargetVersion>
+    <DriverTargetPlatform>Desktop</DriverTargetPlatform>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Inf2CatUseLocalTime>true</Inf2CatUseLocalTime>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..;$(ProjectDir)include;$(ProjectDir)..\Common;$(ProjectDir)..\..\AirPcap_devpack\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <PreprocessorDefinitions>HAVE_CONFIG_H;NPF_NPCAP_RUN_IN_WINPCAP_MODE;WIN_NT_DRIVER;HAVE_WFP_LOOPBACK_SUPPORT;NDIS6X;HAVE_RX_SUPPORT;HAVE_DOT11_SUPPORT;POOL_NX_OPTIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">DBG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>wdmsec.lib;ndis.lib;Ntstrsafe.lib;$(DDK_LIB_PATH)\fwpkclnt.lib;$(SDK_LIB_PATH)\uuid.lib;$(DDK_LIB_PATH)\netio.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="bucket_lookup.c" />
+    <ClCompile Include="count_packets.c" />
+    <ClCompile Include="dump.c" />
+    <ClCompile Include="functions.c" />
+    <ClCompile Include="jitter.c" />
+    <ClCompile Include="Loopback.c" />
+    <ClCompile Include="Lo_send.c" />
+    <ClCompile Include="normal_lookup.c" />
+    <ClCompile Include="Openclos.c" />
+    <ClCompile Include="Packet.c" />
+    <ClCompile Include="Read.c" />
+    <ClCompile Include="tcp_session.c" />
+    <ClCompile Include="tme.c" />
+    <ClCompile Include="win_bpf_filter.c" />
+    <ClCompile Include="win_bpf_filter_init.c" />
+    <ClCompile Include="Write.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\config.h" />
+    <ClInclude Include="include\bucket_lookup.h" />
+    <ClInclude Include="include\count_packets.h" />
+    <ClInclude Include="include\DEBUG.H" />
+    <ClInclude Include="include\functions.h" />
+    <ClInclude Include="include\ieee80211_radiotap.h" />
+    <ClInclude Include="include\ioctls.h" />
+    <ClInclude Include="include\jitter.h" />
+    <ClInclude Include="include\Loopback.h" />
+    <ClInclude Include="include\Lo_send.h" />
+    <ClInclude Include="include\macros.h" />
+    <ClInclude Include="include\memory_t.h" />
+    <ClInclude Include="include\normal_lookup.h" />
+    <ClInclude Include="include\Packet.h" />
+    <ClInclude Include="include\stdafx.h" />
+    <ClInclude Include="include\tcp_session.h" />
+    <ClInclude Include="include\time_calls.h" />
+    <ClInclude Include="include\tme.h" />
+    <ClInclude Include="include\valid_insns.h" />
+    <ClInclude Include="include\win_bpf.h" />
+    <ClInclude Include="include\win_bpf_filter_init.h" />
+  </ItemGroup>
+  <ItemGroup />
+</Project>
