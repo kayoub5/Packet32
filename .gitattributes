@@ -3,6 +3,11 @@
 ###############################################################################
 * text=auto
 
+# Ensure all C, CPP and H files use LF.
+*.c         eol=lf
+*.cpp       eol=lf
+*.h         eol=lf
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #
