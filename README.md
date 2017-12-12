@@ -2,6 +2,7 @@ Npcap
 ==========
 
 [![Build status](https://ci.appveyor.com/api/projects/status/scvslivxk530wkss/branch/master?svg=true)](https://ci.appveyor.com/project/sgeto/packet32/branch/master)
+[![Build Status](https://travis-ci.org/sgeto/Packet32.svg?branch=master)](https://travis-ci.org/sgeto/Packet32)
 ![Environment](https://img.shields.io/badge/Windows-Vista,%207,%208,%2010-brightgreen.svg)
 [![Release](https://img.shields.io/github/release/nmap/npcap.svg)](https://github.com/nmap/npcap/releases)
 ![License](https://img.shields.io/badge/license-WTFPL-lightgrey.svg)
