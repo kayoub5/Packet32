@@ -50,3 +50,9 @@ Ntstrsafe.lib
 $(DDK_LIB_PATH)\fwpkclnt.lib
 $(SDK_LIB_PATH)\uuid.lib
 $(DDK_LIB_PATH)\netio.lib
+
+
+The form of decoration for a C function depends on the calling convention used in its declaration,
+as shown in the following table. This is also the decoration format that is used when C++ code is
+declared to have extern "C" linkage. The default calling convention is __cdecl. Note that in a
+64-bit environment, functions are not decorated.
