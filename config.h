@@ -14,7 +14,10 @@
 //#pragma comment (lib,"netio")         /* Setup API */
 #else
 #pragma comment (lib,"ws2_32")           /* winsock 2 */
+
+#define HAVE_IPHELPER_API
 #pragma comment (lib,"iphlpapi")         /* IP Helper API */
+
 #pragma comment (lib,"setupapi")         /* Setup API */
 #endif
 /*
