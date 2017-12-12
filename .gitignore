@@ -1,0 +1,10 @@
+*.opendb
+*.db
+
+\.vs
+x64
+Win32
+Debug
+Release
+
+
