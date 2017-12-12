@@ -4,9 +4,15 @@
 * text=auto
 
 # Ensure all C, CPP and H files use LF.
-*.c         eol=lf
-*.cpp       eol=lf
-*.h         eol=lf
+*.c                     eol=lf
+*.cpp                   eol=lf
+*.h                     eol=lf
+
+# Ensure all VS files use LF.
+*.sln                   eol=crlf
+*.props                 eol=crlf
+*.vcxproj               eol=crlf
+*.vcxproj.filters       eol=crlf
 
 ###############################################################################
 # Set default behavior for command prompt diff.
