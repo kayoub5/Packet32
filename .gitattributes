@@ -8,11 +8,13 @@
 *.cpp                   eol=lf
 *.h                     eol=lf
 
-# Ensure all VS files use LF.
+# Ensure all VS related files use CRLF.
 *.sln                   eol=crlf
 *.props                 eol=crlf
 *.vcxproj               eol=crlf
 *.vcxproj.filters       eol=crlf
+*.rc                    eol=crlf
+*.rc2                   eol=crlf
 
 ###############################################################################
 # Set default behavior for command prompt diff.
