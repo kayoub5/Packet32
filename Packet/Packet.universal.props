@@ -14,10 +14,11 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)..;$(ProjectDir)include;$(ProjectDir)..\Common;$(ProjectDir)..\npf\include;$(ProjectDir)..\..\AirPcap_devpack\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
-      <PreprocessorDefinitions>HAVE_CONFIG_H;NPF_NPCAP_RUN_IN_WINPCAP_MODE;HAVE_IPHELPER_API;_DEBUG_TO_FILE;NDIS6X;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HAVE_CONFIG_H;NPF_NPCAP_RUN_IN_WINPCAP_MODE;_DEBUG_TO_FILE;NDIS6X;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">_DBG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(MSBuildProjectName)'=='libPacket'">_WINLIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
+      <CallingConvention>Cdecl</CallingConvention>
     </ClCompile>
     <Link>
       <ModuleDefinitionFile>$(ProjectDir)packet.def</ModuleDefinitionFile>
