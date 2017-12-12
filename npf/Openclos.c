@@ -1592,7 +1592,7 @@ NPF_AttachAdapter(
 // 		if (AttachParameters->LowerIfIndex != AttachParameters->BaseMiniportIfIndex)
 // 		{
 // 			IF_LOUD(DbgPrint("Don't bind to other altitudes than exactly over the miniport: LowerIfIndex = %d, BaseMiniportIfIndex = %d.\n", AttachParameters->LowerIfIndex, AttachParameters->BaseMiniportIfIndex);)
-// 
+//
 // 			returnStatus = NDIS_STATUS_NOT_SUPPORTED;
 // 			break;
 // 		}
@@ -1768,7 +1768,7 @@ NPF_Pause(
 	NdisReleaseSpinLock(&Open->AdapterHandleLock);
 
 	Status = NDIS_STATUS_SUCCESS;
-	
+
 	TRACE_EXIT();
 	return Status;
 }
@@ -1846,7 +1846,7 @@ NOTE: Called at PASSIVE_LEVEL and the filter is in paused state
 	NPF_CloseBinding(Open);
 
 #ifdef HAVE_WFP_LOOPBACK_SUPPORT
-	// "Npcap Loopback Adapter" is going to be detached, invalidate its global pointer as well. 
+	// "Npcap Loopback Adapter" is going to be detached, invalidate its global pointer as well.
 	if (Open->Loopback && Open == g_LoopbackOpenGroupHead)
 	{
 		g_LoopbackOpenGroupHead = NULL;

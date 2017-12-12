@@ -247,7 +247,7 @@ DriverEntry(
 
 	// Use NonPaged Pool instead of No-Execute (NX) Nonpaged Pool for Win8 and later, this is for security purpose.
 	ExInitializeDriverRuntime(DrvRtPoolNxOptIn);
-	
+
 	WCHAR* bindT;
 	PKEY_VALUE_PARTIAL_INFORMATION tcpBindingsP;
 	UNICODE_STRING AdapterName;
@@ -1877,13 +1877,13 @@ NPF_IoControl(
 
 		// Get the number of bytes to allocate
 		dim = *((PULONG)Irp->AssociatedIrp.SystemBuffer);
-		
+
 		// verify that the provided size value is sensible
 		if (dim > NPF_MAX_BUFFER_SIZE)
 		{
 			SET_FAILURE_NOMEM();
 			break;
-		} 
+		}
 
 		if (dim / g_NCpu < sizeof(struct PacketHeader))
 		{
