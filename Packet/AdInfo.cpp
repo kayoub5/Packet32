@@ -1546,12 +1546,7 @@ tcpip_linkage:
 	}
 
 	else{
-#ifdef _WINNT4
-		MessageBox(NULL,TEXT("Can not find TCP/IP bindings.\nIn order to run the packet capture driver you must install TCP/IP."),szWindowTitle,MB_OK);
-		TRACE_PRINT("Cannot find the TCP/IP bindings on NT4, no adapters.");
-		TRACE_EXIT();
-		return FALSE;
-#endif
+// XXX - remove me!
 	}
 
 	TRACE_EXIT();

@@ -124,15 +124,8 @@ CHAR g_strLoopbackAdapterName[BUFSIZE]	= "";						// The name of "Npcap Loopback
 
 map<string, int> g_nbAdapterMonitorModes;							// The states for all the wireless adapters that show whether it is in the monitor mode.
 
-
 #ifdef _WINNT4
-#if (defined(HAVE_NPFIM_API) || defined (HAVE_AIRPCAP_API) || defined(HAVE_IPHELPER_API))
-#error Do not enable _WINNT4 with any other API
-#endif
-#endif //_WINNT4
-
-#ifdef _WINNT4
-#pragma message ("Compiling Packet.dll for WINNT4 only")
+#pragma message ("Support for compiling Packet.dll for WINNT4 only has been dropped.")
 #endif
 
 #ifdef HAVE_AIRPCAP_API
@@ -388,7 +381,6 @@ __declspec (dllexport) VOID PacketRegWoemLeaveHandler(PVOID Handler)
 
 //---------------------------------------------------------------------------
 
-#ifndef _WINNT4
 //
 // This wrapper around loadlibrary appends the system folder (usually c:\windows\system32)
 // to the relative path of the DLL, so that the DLL is always loaded from an absolute path
@@ -443,7 +435,6 @@ HMODULE LoadLibrarySafe(LPCTSTR lpFileName)
   TRACE_EXIT();
   return hModule;
 }
-#endif
 
 BOOL NpcapCreatePipe(char *pipeName, HANDLE moduleName)
 {
@@ -2611,9 +2602,7 @@ LPADAPTER PacketOpenAdapter(PCHAR AdapterNameWA)
 	PCHAR AdapterNameA = NULL;
 	PCHAR TranslatedAdapterNameWA = NULL;
 	BOOL bFreeAdapterNameA;
-#ifndef _WINNT4
 	PADAPTER_INFO TAdInfo;
-#endif //_WINNT4
 
 	DWORD dwLastError = ERROR_SUCCESS;
 
@@ -2666,15 +2655,9 @@ LPADAPTER PacketOpenAdapter(PCHAR AdapterNameWA)
 		StringCchPrintfA(AdapterNameA, bufferSize, "%ws", (PWCHAR)AdapterNameWA);
 		bFreeAdapterNameA = TRUE;
 	}
-
-#ifndef _WINNT4
 	WaitForSingleObject(g_AdaptersInfoMutex, INFINITE);
-#endif // not WINNT4
-
 	do
 	{
-
-#ifndef _WINNT4
 		//
 		// Windows NT4 does not have support for the various nifty
 		// adapters supported from 2000 on (airpcap, ndiswan, npfim...)
@@ -2830,8 +2813,6 @@ LPADAPTER PacketOpenAdapter(PCHAR AdapterNameWA)
 			break;
 		}
 
-#endif // not _WINNT4
-
 		//
 		// This is the only code executed on NT4
 		//
@@ -2849,10 +2830,7 @@ LPADAPTER PacketOpenAdapter(PCHAR AdapterNameWA)
 		}
 
 	}while(FALSE);
-
-#ifndef _WINNT4
 	ReleaseMutex(g_AdaptersInfoMutex);
-#endif
 
 	if (bFreeAdapterNameA) GlobalFree(AdapterNameA);
 
