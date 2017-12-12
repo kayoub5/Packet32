@@ -96,7 +96,7 @@
 #include "win_bpf_filter_init.h"
 #endif //HAVE_BUGGY_TME_SUPPORT
 
-#include "..\..\..\Common\WpcapNames.h"
+#include "WpcapNames.h"
 
 #ifdef ALLOC_PRAGMA
 #pragma NDIS_INIT_FUNCTION(DriverEntry)

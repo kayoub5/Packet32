@@ -89,7 +89,7 @@
 #include "packet.h"
 #include "Loopback.h"
 #include "Lo_send.h"
-#include "..\..\..\Common\WpcapNames.h"
+#include "WpcapNames.h"
 
 extern NDIS_STRING g_LoopbackAdapterName;
 extern NDIS_STRING g_SendToRxAdapterName;
