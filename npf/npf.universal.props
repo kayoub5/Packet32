@@ -2,6 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)$(Platform)\$(ConfigurationName)\</OutDir>
+    <IntDir>$(Platform)\$(ConfigurationName)\</IntDir>
+  </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <TargetVersion>Windows7</TargetVersion>
     <DriverTargetPlatform>Desktop</DriverTargetPlatform>
