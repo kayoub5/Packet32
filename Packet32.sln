@@ -25,10 +25,19 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CD3267EE-1DB6-466F-991D-8BD1D28821C7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestPacketCapture", "tests\TestPacketCapture\TestPacketCapture.vcxproj", "{E2FA9724-D24B-4DC0-8F76-3C04D90ED926}"
+	ProjectSection(ProjectDependencies) = postProject
+		{599F067B-35F1-4C61-A28D-CD459A2019BB} = {599F067B-35F1-4C61-A28D-CD459A2019BB}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestPacketSend", "tests\TestPacketSend\TestPacketSend.vcxproj", "{8846F9A0-7628-483B-800F-CB5458D4AD52}"
+	ProjectSection(ProjectDependencies) = postProject
+		{599F067B-35F1-4C61-A28D-CD459A2019BB} = {599F067B-35F1-4C61-A28D-CD459A2019BB}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GetMacAddress", "tests\GetMacAddress\GetMacAddress.vcxproj", "{3B111C76-ABE7-4BC3-9707-266587996EB1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{599F067B-35F1-4C61-A28D-CD459A2019BB} = {599F067B-35F1-4C61-A28D-CD459A2019BB}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WlanHelper", "utils\WlanHelper\WlanHelper.vcxproj", "{AC7C807E-5084-4C9B-AB5E-3F60063C8423}"
 EndProject
