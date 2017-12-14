@@ -304,7 +304,6 @@ extern "C"
 	VOID PacketCloseAdapter(LPADAPTER lpAdapter);
 	BOOLEAN PacketStartOem(PCHAR errorString, UINT errorStringLength);
 	BOOLEAN PacketStartOemEx(PCHAR errorString, UINT errorStringLength, ULONG flags);
-	PAirpcapHandle PacketGetAirPcapHandle(LPADAPTER AdapterObject);
 
 	//
 	// Used by PacketStartOemEx
