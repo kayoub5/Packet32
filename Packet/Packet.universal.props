@@ -28,7 +28,6 @@
   <ItemGroup>
     <ClCompile Include="AdInfo.cpp" />
     <ClCompile Include="netcfgapi.cpp" />
-    <ClCompile Include="NpfImExt.cpp" />
     <ClCompile Include="Packet32.cpp" />
     <ClCompile Include="ProtInstall.cpp" />
     <ClCompile Include="..\npf\win_bpf_filter.c" />
@@ -37,7 +36,6 @@
     <ClInclude Include="..\config.h" />
     <ClInclude Include="include\debug.h" />
     <ClInclude Include="include\netcfgapi.h" />
-    <ClInclude Include="include\NpfImExt.h" />
     <ClInclude Include="..\Common\Packet32.h" />
     <ClInclude Include="include\Packet32-Int.h" />
     <ClInclude Include="include\ProtInstall.h" />

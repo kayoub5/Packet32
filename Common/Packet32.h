@@ -219,10 +219,6 @@ typedef struct _ADAPTER
 	PAirpcapHandle AirpcapAd;
 #endif // HAVE_AIRPCAP_API
 
-#ifdef HAVE_NPFIM_API
-	void* NpfImHandle;
-#endif // HAVE_NPFIM_API
-
 }  ADAPTER, * LPADAPTER;
 
 /*!
