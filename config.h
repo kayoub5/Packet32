@@ -1,4 +1,4 @@
-#define WSOCK_TRACE
+//#define WSOCK_TRACE
 #define HAVE_IPHELPER_API
 
 // Disable some overeager MSVC level 4 warnings.
