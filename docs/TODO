@@ -1,6 +1,9 @@
 Avoid fetching tags from remote npcap
 http://git.661346.n2.nabble.com/git-fetch-default-globally-to-no-tags-td7621457.html
 
+get rid of Packet.def
+https://msdn.microsoft.com/en-us/library/3y1sfaz2.aspx
+
 add wsock_trace as submodule and to appveyor
 
 sort out copyright nonesense
