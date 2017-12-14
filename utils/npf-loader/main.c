@@ -1,3 +1,9 @@
+/**
+ * Packet32 has no copyright assigned and is placed in the Public Domain.
+ * No warranty is given; refer to the files LICENSE-WTFPL, COPYING.Npcap and
+ * COPYING.WinPcap within this package.
+ */
+
 /*
 * Copyright (C) 2015 Universita` di Pisa. All rights reserved.
 *
