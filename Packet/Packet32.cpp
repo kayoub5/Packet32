@@ -49,10 +49,6 @@ CHAR g_strLoopbackAdapterName[BUFSIZE]	= "";						// The name of "Npcap Loopback
 
 map<string, int> g_nbAdapterMonitorModes;							// The states for all the wireless adapters that show whether it is in the monitor mode.
 
-#ifdef HAVE_AIRPCAP_API
-#pragma message ("Compiling Packet.dll with support for AirPcap")
-#endif
-
 #ifdef HAVE_IPHELPER_API
 #pragma message ("Compiling Packet.dll with support from IP helper API for API addresses")
 #endif
@@ -239,26 +235,6 @@ GAAHandler g_GetAdaptersAddressesPointer = NULL;
 //
 volatile LONG g_DynamicLibrariesLoaded = 0;
 HANDLE g_DynamicLibrariesMutex;
-
-#ifdef HAVE_AIRPCAP_API
-// We load dinamically the dag library in order link it only when it's present on the system
-AirpcapGetLastErrorHandler g_PAirpcapGetLastError;
-AirpcapGetDeviceListHandler g_PAirpcapGetDeviceList;
-AirpcapFreeDeviceListHandler g_PAirpcapFreeDeviceList;
-AirpcapOpenHandler g_PAirpcapOpen;
-AirpcapCloseHandler g_PAirpcapClose;
-AirpcapGetLinkTypeHandler g_PAirpcapGetLinkType;
-AirpcapSetKernelBufferHandler g_PAirpcapSetKernelBuffer;
-AirpcapSetFilterHandler g_PAirpcapSetFilter;
-AirpcapGetMacAddressHandler g_PAirpcapGetMacAddress;
-AirpcapSetMinToCopyHandler g_PAirpcapSetMinToCopy;
-AirpcapGetReadEventHandler g_PAirpcapGetReadEvent;
-AirpcapReadHandler g_PAirpcapRead;
-AirpcapGetStatsHandler g_PAirpcapGetStats;
-AirpcapWriteHandler g_PAirpcapWrite;
-#endif // HAVE_AIRPCAP_API
-
-
 
 BOOLEAN PacketAddAdapterDag(PCHAR name, PCHAR description, BOOLEAN IsAFile);
 
@@ -1014,10 +990,6 @@ VOID PacketLoadLibrariesDynamically()
 	HMODULE IPHMod;
 #endif // HAVE_IPHELPER_API
 
-#ifdef HAVE_AIRPCAP_API
-	HMODULE AirpcapLib;
-#endif // HAVE_AIRPCAP_API
-
 	TRACE_ENTER();
 
 	//
@@ -1048,55 +1020,6 @@ VOID PacketLoadLibrariesDynamically()
 		g_GetAdaptersAddressesPointer = (GAAHandler) GetProcAddress(IPHMod ,"GetAdaptersAddresses");
 	}
 #endif // HAVE_IPHELPER_API
-
-#ifdef HAVE_AIRPCAP_API
-	/* We dynamically load the airpcap library in order link it only when it's present on the system */
-	if((AirpcapLib =  LoadLibrarySafe(TEXT("airpcap.dll"))) == NULL)
-	{
-		// Report the error but go on
-		TRACE_PRINT("AirPcap library not found on this system");
-	}
-	else
-	{
-		//
-		// Find the exports
-		//
-		g_PAirpcapGetLastError = (AirpcapGetLastErrorHandler) GetProcAddress(AirpcapLib, "AirpcapGetLastError");
-		g_PAirpcapGetDeviceList = (AirpcapGetDeviceListHandler) GetProcAddress(AirpcapLib, "AirpcapGetDeviceList");
-		g_PAirpcapFreeDeviceList = (AirpcapFreeDeviceListHandler) GetProcAddress(AirpcapLib, "AirpcapFreeDeviceList");
-		g_PAirpcapOpen = (AirpcapOpenHandler) GetProcAddress(AirpcapLib, "AirpcapOpen");
-		g_PAirpcapClose = (AirpcapCloseHandler) GetProcAddress(AirpcapLib, "AirpcapClose");
-		g_PAirpcapGetLinkType = (AirpcapGetLinkTypeHandler) GetProcAddress(AirpcapLib, "AirpcapGetLinkType");
-		g_PAirpcapSetKernelBuffer = (AirpcapSetKernelBufferHandler) GetProcAddress(AirpcapLib, "AirpcapSetKernelBuffer");
-		g_PAirpcapSetFilter = (AirpcapSetFilterHandler) GetProcAddress(AirpcapLib, "AirpcapSetFilter");
-		g_PAirpcapGetMacAddress = (AirpcapGetMacAddressHandler) GetProcAddress(AirpcapLib, "AirpcapGetMacAddress");
-		g_PAirpcapSetMinToCopy = (AirpcapSetMinToCopyHandler) GetProcAddress(AirpcapLib, "AirpcapSetMinToCopy");
-		g_PAirpcapGetReadEvent = (AirpcapGetReadEventHandler) GetProcAddress(AirpcapLib, "AirpcapGetReadEvent");
-		g_PAirpcapRead = (AirpcapReadHandler) GetProcAddress(AirpcapLib, "AirpcapRead");
-		g_PAirpcapGetStats = (AirpcapGetStatsHandler) GetProcAddress(AirpcapLib, "AirpcapGetStats");
-		g_PAirpcapWrite = (AirpcapWriteHandler) GetProcAddress(AirpcapLib, "AirpcapWrite");
-
-		//
-		// Make sure that we found everything
-		//
-		if(g_PAirpcapGetLastError == NULL ||
-			g_PAirpcapGetDeviceList == NULL ||
-			g_PAirpcapFreeDeviceList == NULL ||
-			g_PAirpcapClose == NULL ||
-			g_PAirpcapGetLinkType == NULL ||
-			g_PAirpcapSetKernelBuffer == NULL ||
-			g_PAirpcapSetFilter == NULL ||
-			g_PAirpcapGetMacAddress == NULL ||
-			g_PAirpcapSetMinToCopy == NULL ||
-			g_PAirpcapGetReadEvent == NULL ||
-			g_PAirpcapRead == NULL ||
-			g_PAirpcapGetStats == NULL)
-		{
-			// No, something missing. A NULL g_PAirpcapOpen will disable airpcap adapters check
-			g_PAirpcapOpen = NULL;
-		}
-	}
-#endif // HAVE_AIRPCAP_API
 
 	//
 	// Done. Release the mutex and return
@@ -2102,63 +2025,6 @@ LPADAPTER PacketOpenAdapterNPF(PCHAR AdapterNameA)
 	return NULL;
 }
 
-/*!
-  \brief Opens an adapter using the aircap dll.
-  \param AdapterName A string containing the name of the device to open.
-  \return If the function succeeds, the return value is the pointer to a properly initialized ADAPTER object,
-   otherwise the return value is NULL.
-
-  \note internal function used by PacketOpenAdapter()
-*/
-#ifdef HAVE_AIRPCAP_API
-static LPADAPTER PacketOpenAdapterAirpcap(PCHAR AdapterName)
-{
-	CHAR Ebuf[AIRPCAP_ERRBUF_SIZE];
-    LPADAPTER lpAdapter;
-
-	TRACE_ENTER();
-
-	//
-	// Make sure that the airpcap API has been linked
-	//
-	if(!g_PAirpcapOpen)
-	{
-		TRACE_EXIT();
-		return NULL;
-	}
-
-	lpAdapter = (LPADAPTER) GlobalAllocPtr(GMEM_MOVEABLE | GMEM_ZEROINIT,
-		sizeof(ADAPTER));
-	if (lpAdapter == NULL)
-	{
-		TRACE_EXIT();
-		return NULL;
-	}
-
-	//
-	// Indicate that this is a aircap card
-	//
-	lpAdapter->Flags = INFO_FLAG_AIRPCAP_CARD;
-
-	//
-	// Open the adapter
-	//
-	lpAdapter->AirpcapAd = g_PAirpcapOpen(AdapterName, Ebuf);
-
-	if(lpAdapter->AirpcapAd == NULL)
-	{
-		GlobalFreePtr(lpAdapter);
-		TRACE_EXIT();
-		return NULL;
-	}
-
-	StringCchCopyA(lpAdapter->Name, ADAPTER_NAME_LENGTH, AdapterName);
-
-	TRACE_EXIT();
-	return lpAdapter;
-}
-#endif // HAVE_AIRPCAP_API
-
 //---------------------------------------------------------------------------
 // PUBLIC API
 //---------------------------------------------------------------------------
@@ -2403,37 +2269,6 @@ LPADAPTER PacketOpenAdapter(PCHAR AdapterNameWA)
 
 		TRACE_PRINT("Adapter found in our list. Check adapter type and see if it's actually supported.");
 
-#ifdef HAVE_AIRPCAP_API
-		if(TAdInfo->Flags == INFO_FLAG_AIRPCAP_CARD)
-		{
-			//
-			// This is an airpcap card. Open it using the airpcap api
-			//
-			lpAdapter = PacketOpenAdapterAirpcap(AdapterNameA);
-
-			if(lpAdapter == NULL)
-			{
-				dwLastError = ERROR_BAD_UNIT;
-				break;
-			}
-
-			//
-			// Airpcap provides a read event
-			//
-			if(!g_PAirpcapGetReadEvent(lpAdapter->AirpcapAd, &lpAdapter->ReadEvent))
-			{
-				PacketCloseAdapter(lpAdapter);
-				dwLastError = ERROR_BAD_UNIT;
-			}
-			else
-			{
-				dwLastError = ERROR_SUCCESS;
-			}
-
-			break;
-		}
-#endif // HAVE_AIRPCAP_API
-
 		if(TAdInfo->Flags == INFO_FLAG_DONT_EXPORT)
 		{
 			//
@@ -2511,16 +2346,6 @@ VOID PacketCloseAdapter(LPADAPTER lpAdapter)
 		TRACE_EXIT();
 		return;
 	}
-
-#ifdef HAVE_AIRPCAP_API
-	if(lpAdapter->Flags == INFO_FLAG_AIRPCAP_CARD)
-		{
-			g_PAirpcapClose(lpAdapter->AirpcapAd);
-			GlobalFreePtr(lpAdapter);
-			TRACE_EXIT();
-			return;
-		}
-#endif // HAVE_AIRPCAP_API
 
 	if (lpAdapter->Flags != INFO_FLAG_NDIS_ADAPTER)
 	{
@@ -2648,31 +2473,6 @@ BOOLEAN PacketReceivePacket(LPADAPTER AdapterObject,LPPACKET lpPacket,BOOLEAN Sy
 
 	TRACE_ENTER();
 
-#ifdef HAVE_AIRPCAP_API
-	if(AdapterObject->Flags == INFO_FLAG_AIRPCAP_CARD)
-	{
-		//
-		// Wait for data, only if the user requested us to do that
-		//
-		if((int)AdapterObject->ReadTimeOut != -1)
-		{
-			WaitForSingleObject(AdapterObject->ReadEvent, (AdapterObject->ReadTimeOut==0)? INFINITE: AdapterObject->ReadTimeOut);
-		}
-
-		//
-		// Read the data.
-		// g_PAirpcapRead always returns immediately.
-		//
-		res = (BOOLEAN)g_PAirpcapRead(AdapterObject->AirpcapAd,
-				lpPacket->Buffer,
-				lpPacket->Length,
-				&lpPacket->ulBytesReceived);
-
-		TRACE_EXIT();
-		return res;
-	}
-#endif // HAVE_AIRPCAP_API
-
 	if (AdapterObject->Flags == INFO_FLAG_NDIS_ADAPTER)
 	{
 		if((int)AdapterObject->ReadTimeOut != -1)
@@ -2726,26 +2526,6 @@ BOOLEAN PacketSendPacket(LPADAPTER AdapterObject,LPPACKET lpPacket,BOOLEAN Sync)
 	TRACE_ENTER();
 
 	UNUSED(Sync);
-
-#ifdef HAVE_AIRPCAP_API
-	if(AdapterObject->Flags == INFO_FLAG_AIRPCAP_CARD)
-	{
-		if(g_PAirpcapWrite)
-		{
-			Result = (BOOLEAN)g_PAirpcapWrite(AdapterObject->AirpcapAd, lpPacket->Buffer, lpPacket->Length);
-
-			TRACE_EXIT();
-			return Result;
-		}
-		else
-		{
-			TRACE_PRINT("Transmission not supported with this version of AirPcap");
-
-			TRACE_EXIT();
-			return FALSE;
-		}
-	}
-#endif // HAVE_AIRPCAP_API
 
 	if (AdapterObject->Flags == INFO_FLAG_NDIS_ADAPTER)
 	{
@@ -2810,15 +2590,6 @@ INT PacketSendPackets(LPADAPTER AdapterObject, PVOID PacketBuff, ULONG Size, BOO
 
 
 	TRACE_ENTER();
-
-#ifdef HAVE_AIRPCAP_API
-	if(AdapterObject->Flags == INFO_FLAG_AIRPCAP_CARD)
-	{
-		TRACE_PRINT("PacketSendPackets: packet sending not allowed on airpcap adapters");
-		TRACE_EXIT();
-		return 0;
-	}
-#endif // HAVE_AIRPCAP_API
 
 	if (AdapterObject->Flags == INFO_FLAG_NDIS_ADAPTER)
 	{
@@ -2903,16 +2674,6 @@ BOOLEAN PacketSetMinToCopy(LPADAPTER AdapterObject,int nbytes)
 
 	TRACE_ENTER();
 
-#ifdef HAVE_AIRPCAP_API
-	if(AdapterObject->Flags == INFO_FLAG_AIRPCAP_CARD)
-	{
-		Result = (BOOLEAN)g_PAirpcapSetMinToCopy(AdapterObject->AirpcapAd, nbytes);
-
-		TRACE_EXIT();
-		return Result;
-	}
-#endif // HAVE_AIRPCAP_API
-
 	if (AdapterObject->Flags == INFO_FLAG_NDIS_ADAPTER)
 	{
 		Result = (BOOLEAN)DeviceIoControl(AdapterObject->hFile,BIOCSMINTOCOPY,&nbytes,4,NULL,0,&BytesReturned,NULL);
@@ -2969,23 +2730,6 @@ BOOLEAN PacketSetMode(LPADAPTER AdapterObject,int mode)
 	BOOLEAN Result;
 
    TRACE_ENTER();
-
-#ifdef HAVE_AIRPCAP_API
-   if (AdapterObject->Flags == INFO_FLAG_AIRPCAP_CARD)
-   {
-	   if (mode == PACKET_MODE_CAPT)
-	   {
-		   Result = TRUE;
-	   }
-	   else
-	   {
-		   Result = FALSE;
-	   }
-
-	   TRACE_EXIT();
-	   return Result;
-   }
-#endif //HAVE_AIRPCAP_API
 
    if (AdapterObject->Flags == INFO_FLAG_NDIS_ADAPTER)
    {
@@ -3235,17 +2979,6 @@ BOOLEAN PacketSetReadTimeout(LPADAPTER AdapterObject,int timeout)
 
 	AdapterObject->ReadTimeOut = timeout;
 
-#ifdef HAVE_AIRPCAP_API
-	//
-	// Timeout with AirPcap is handled at user level
-	//
-	if(AdapterObject->Flags == INFO_FLAG_AIRPCAP_CARD)
-	{
-		TRACE_EXIT();
-		return TRUE;
-	}
-#endif // HAVE_AIRPCAP_API
-
 	if(AdapterObject->Flags == INFO_FLAG_NDIS_ADAPTER)
 	{
 		Result = TRUE;
@@ -3287,16 +3020,6 @@ BOOLEAN PacketSetBuff(LPADAPTER AdapterObject,int dim)
 
 	TRACE_ENTER();
 
-#ifdef HAVE_AIRPCAP_API
-	if(AdapterObject->Flags == INFO_FLAG_AIRPCAP_CARD)
-	{
-		Result = (BOOLEAN)g_PAirpcapSetKernelBuffer(AdapterObject->AirpcapAd, dim);
-
-		TRACE_EXIT();
-		return Result;
-	}
-#endif // HAVE_AIRPCAP_API
-
 	if (AdapterObject->Flags == INFO_FLAG_NDIS_ADAPTER)
 	{
 		Result = (BOOLEAN)DeviceIoControl(AdapterObject->hFile,BIOCSETBUFFERSIZE,&dim,sizeof(dim),NULL,0,&BytesReturned,NULL);
@@ -3337,18 +3060,6 @@ BOOLEAN PacketSetBpf(LPADAPTER AdapterObject, struct bpf_program *fp)
 	BOOLEAN Result;
 
 	TRACE_ENTER();
-
-#ifdef HAVE_AIRPCAP_API
-	if(AdapterObject->Flags == INFO_FLAG_AIRPCAP_CARD)
-	{
-		Result = (BOOLEAN)g_PAirpcapSetFilter(AdapterObject->AirpcapAd,
-			(char*)fp->bf_insns,
-			fp->bf_len * sizeof(struct bpf_insn));
-
-		TRACE_EXIT();
-		return Result;
-	}
-#endif // HAVE_AIRPCAP_API
 
 	if (AdapterObject->Flags == INFO_FLAG_NDIS_ADAPTER)
 	{
@@ -3454,29 +3165,6 @@ BOOLEAN PacketGetStats(LPADAPTER AdapterObject,struct bpf_stat *s)
 
 	TRACE_ENTER();
 
-#ifdef HAVE_AIRPCAP_API
-	if(AdapterObject->Flags == INFO_FLAG_AIRPCAP_CARD)
-	{
-		AirpcapStats tas;
-
-		Res = (BOOLEAN)g_PAirpcapGetStats(AdapterObject->AirpcapAd, &tas);
-
-		if (Res)
-		{
-			//
-			// Do NOT write this value. This function is probably called with a small structure, old style, containing only the first three fields recv, drop, ifdrop
-			//
-//			s->bs_capt = tas.Capt;
-			s->bs_drop = tas.Drops;
-			s->bs_recv = tas.Recvs;
-			s->ps_ifdrop = tas.IfDrops;
-		}
-
-		TRACE_EXIT();
-		return Res;
-	}
-#endif // HAVE_AIRPCAP_API
-
 	if (AdapterObject->Flags == INFO_FLAG_NDIS_ADAPTER)
 	{
 			Res = (BOOLEAN)DeviceIoControl(AdapterObject->hFile,
@@ -3527,26 +3215,6 @@ BOOLEAN PacketGetStatsEx(LPADAPTER AdapterObject,struct bpf_stat *s)
 	struct bpf_stat tmpstat;	// We use a support structure to avoid kernel-level inconsistencies with old or malicious applications
 
 	TRACE_ENTER();
-
-#ifdef HAVE_AIRPCAP_API
-	if(AdapterObject->Flags == INFO_FLAG_AIRPCAP_CARD)
-	{
-		AirpcapStats tas;
-
-		Res = (BOOLEAN)g_PAirpcapGetStats(AdapterObject->AirpcapAd, &tas);
-
-		if (Res)
-		{
-			s->bs_capt = tas.Capt;
-			s->bs_drop = tas.Drops;
-			s->bs_recv = tas.Recvs;
-			s->ps_ifdrop = tas.IfDrops;
-		}
-
-		TRACE_EXIT();
-		return Res;
-	}
-#endif // HAVE_AIRPCAP_API
 
 	if (AdapterObject->Flags == INFO_FLAG_NDIS_ADAPTER)
 	{
@@ -3655,14 +3323,6 @@ BOOLEAN PacketSetHwFilter(LPADAPTER  AdapterObject,ULONG Filter)
     PPACKET_OID_DATA  OidData;
 
 	TRACE_ENTER();
-
-#ifdef HAVE_AIRPCAP_API
-	if(AdapterObject->Flags == INFO_FLAG_AIRPCAP_CARD)
-	{
-		// Airpcap for the moment is always in promiscuous mode, and ignores any other filters
-		return TRUE;
-	}
-#endif // HAVE_AIRPCAP_API
 
 	if (AdapterObject->Flags == INFO_FLAG_NDIS_ADAPTER)
 	{
@@ -4378,36 +4038,6 @@ int PacketGetMonitorMode(PCHAR AdapterName)
 		TRACE_EXIT();
 		return mode;
 	}
-}
-
-/*!
-  \brief Returns the AirPcap handler associated with an adapter. This handler can be used to change
-           the wireless-related settings of the CACE Technologies AirPcap wireless capture adapters.
-  \param AdapterObject the open adapter whose AirPcap handler is needed.
-  \return a pointer to an open AirPcap handle, used internally by the adapter pointed by AdapterObject.
-          NULL if the libpcap adapter doesn't have wireless support through AirPcap.
-
-  PacketGetAirPcapHandle() allows to obtain the airpcap handle of an open adapter. This handle can be used with
-  the AirPcap API functions to perform wireless-releated operations, e.g. changing the channel or enabling
-  WEP decryption. For more details about the AirPcap wireless capture adapters, see
-  http://www.cacetech.com/products/airpcap.htm.
-*/
-PAirpcapHandle PacketGetAirPcapHandle(LPADAPTER AdapterObject)
-{
-	PAirpcapHandle handle = NULL;
-	TRACE_ENTER();
-
-#ifdef HAVE_AIRPCAP_API
-	if (AdapterObject->Flags == INFO_FLAG_AIRPCAP_CARD)
-	{
-		handle = AdapterObject->AirpcapAd;
-	}
-#else
-	UNUSED(AdapterObject);
-#endif // HAVE_AIRPCAP_API
-
-	TRACE_EXIT();
-	return handle;
 }
 
 /* @} */

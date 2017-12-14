@@ -1,10 +1,8 @@
 Avoid fetching tags from remote npcap
 http://git.661346.n2.nabble.com/git-fetch-default-globally-to-no-tags-td7621457.html
 
-the hell is NpfIm driver??
-
 add wsock_trace as submodule and to appveyor
 
-sort up copyright nonesense
+sort out copyright nonesense
 
-get rid of WanPacket and dag and Airpcap remnants --> ag -w dag INFO_FLAG_NDISWAN_ADAPTER etc
+get rid of WanPacket and dag and Airpcap remnants --> ag -w dag airpcap NpfIm INFO_FLAG_NDISWAN_ADAPTER etc

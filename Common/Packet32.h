@@ -20,15 +20,6 @@
 
 #include <winsock2.h>
 
-#ifdef HAVE_AIRPCAP_API
-#include <airpcap.h>
-#else
-#if !defined(AIRPCAP_HANDLE__EAE405F5_0171_9592_B3C2_C19EC426AD34__DEFINED_)
-#define AIRPCAP_HANDLE__EAE405F5_0171_9592_B3C2_C19EC426AD34__DEFINED_
-typedef struct _AirpcapHandle* PAirpcapHandle;
-#endif /* AIRPCAP_HANDLE__EAE405F5_0171_9592_B3C2_C19EC426AD34__DEFINED_ */
-#endif /* HAVE_AIRPCAP_API */
-
 // Libpcap/wpcap recognizes this macro and knows Npcap Packet API is provided for compilation.
 #define HAVE_NPCAP_PACKET_API
 
@@ -214,10 +205,6 @@ typedef struct _ADAPTER
 	CHAR Name[ADAPTER_NAME_LENGTH];
 	PWAN_ADAPTER pWanAdapter;
 	UINT Flags;					///< Adapter's flags. Tell if this adapter must be treated in a different way, using the Netmon API or the dagc API.
-
-#ifdef HAVE_AIRPCAP_API
-	PAirpcapHandle AirpcapAd;
-#endif // HAVE_AIRPCAP_API
 
 }  ADAPTER, * LPADAPTER;
 
