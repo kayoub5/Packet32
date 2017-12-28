@@ -5,7 +5,7 @@ Npcap
 [![Build Status](https://travis-ci.org/sgeto/Packet32.svg?branch=master)](https://travis-ci.org/sgeto/Packet32)
 ![Environment](https://img.shields.io/badge/Windows-Vista,%207,%208,%2010-brightgreen.svg)
 [![Release](https://img.shields.io/github/release/nmap/npcap.svg)](https://github.com/nmap/npcap/releases)
-![License](https://img.shields.io/badge/license-WTFPL-lightgrey.svg)
+![License](https://img.shields.io/badge/License-WTFPL-lightgrey.svg)
 ![Downloads](https://img.shields.io/github/downloads/nmap/npcap/latest/total.svg)
 ![TotalDownloads](https://img.shields.io/github/downloads/nmap/npcap/total.svg)
 
