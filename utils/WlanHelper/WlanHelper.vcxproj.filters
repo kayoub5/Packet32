@@ -28,7 +28,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Tool.h">
+    <ClInclude Include="include\Tool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
