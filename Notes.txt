@@ -1,6 +1,3 @@
-https://github.com/dokan-dev/dokany/wiki/Build +1
-
-
 Netmon and npptools.dll are no longer part of Windows Vista. You can get Netmon 3.0 as a standalone from http://connect.microsoft.com. For more info, their blog is at http://blogs.technet.com/netmon/.
 
 https://stackoverflow.com/questions/10727568/cannot-convert-parameter-1-from-const-char-to-lpcwstr
@@ -56,3 +53,38 @@ The form of decoration for a C function depends on the calling convention used i
 as shown in the following table. This is also the decoration format that is used when C++ code is
 declared to have extern "C" linkage. The default calling convention is __cdecl. Note that in a
 64-bit environment, functions are not decorated.
+
+The concept is very old. Unfortunately the documentation is not easy to locate.  Look in the Windows Internals books. Perhaps MSDN editors assumed that everyone and their grandparents are familiar with it already.
+
+So... I'd try and make very rough superficial overview.
+
+Basically, there are four kinds of network components: clients, services, protocols and adapters. /* Four is a well known magic number: The Gang of Four, four levels of PCI IRQLs, four edges of a dollar bill, and so on */
+
+An example of client is the Workstation service (yes, a service - but it's a client towards lower-layer services. Services are various components that sit in background and provide various network-related functions.
+
+Examples of protocols are, obviously,  tcpip v4 and tcpip v6 and others, such as SSTP,  L2TP, LLTD and so on.
+
+Protocols usually talk directly to adapters but can also talk to lower protocols.  
+
+Adapters are usually hardware netcards, or dial-up interfaces, or various virtual things such as tunnels, bridges etc. Their physical medium (or emulation of it) define "network topology"and behavior.
+
+Now, every component has set of upper and lower interfaces: a client binds to services, services - to protocols, protocols - to adapters and/or other protocols. Adapters bind to physical medium (or pretend to).
+
+The configuration of network in each given Windows system is defined by set of all above installed components, plus information on which of them is bound exactly to which, in which order.
+
+By convention, every module has one connection on top to it's upper layer, and several connections on its bottom edge towards lower layers. For example, WINS service can talk to every network adapter, via tcpip v4 and v6 to each. Each component provides several "instances" of itself for each connection to upper component. 
+
+So we get a tree of all such connections, called "bindings". Any path in this tree from top to bottom is called "binding path". By convention, these paths cannot have loops :) All this information is somehow stored in the registry, so that it survives restarts.
+
+Next, it is logical to suppose that we want to be able to break some of these connections. For example we want the Windows networking to connect only to certain netcard and not others. Or temporarily disable IPv6 on some adapter. Thus, the concept of disabling & enabling paths, or deleting and e-creating them.
+
+And now -  wake up, N.! :) - comes  the Bindview.
+
+What you see in Bindview is this binding information, presented for every kind of components, top to bottom. 
+
+It also allows disable and enable every segment of binding path. As an extra, it allows install non-PnP components by calling INetCfg APIs).
+
+
+Dizzy? Go read some books....
+
+-- pa
