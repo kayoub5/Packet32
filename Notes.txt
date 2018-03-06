@@ -1,3 +1,17 @@
+warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
+============================================================================
+https://social.msdn.microsoft.com/Forums/vstudio/en-US/6d5c3c66-3d69-4391-9d3b-745f27acf8c7/cant-enable-edit-and-continue-due-to-optlbr-option?forum=vcgeneral
+LINK warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
+It is easily fixed by changing the VS Project Properties:
+setting Linker >> General >> Enable Incremental Linking :(/INCREMENTAL:NO)
+
+But:
+You need to leave the existing settings for the Debugging Configuration build (i.e. /INCREMENTAL:Yes) otherwise you get the warning:
+warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
+
+The article http://stackoverflow.com/questions/21965816/warning-lnk4075-when-a-c-cli-project-references-a-static-lib-project-with-zi explains that this is actually a bogus message. The real cause of the problem is the fact that C++/CLI projects do not support EditAndContinue because they also don't support Incremental building. It is the compiler that enables EditAndContinue for an object file using the "Debug Information Format: Program Database for Edit And Continue (/ZI)" flag. You'll have to change that flag to "Program Database (/Zi)" for both projects - the executable and the static lib.
+--------------------------------------------
+
 Netmon and npptools.dll are no longer part of Windows Vista. You can get Netmon 3.0 as a standalone from http://connect.microsoft.com. For more info, their blog is at http://blogs.technet.com/netmon/.
 
 https://stackoverflow.com/questions/10727568/cannot-convert-parameter-1-from-const-char-to-lpcwstr
