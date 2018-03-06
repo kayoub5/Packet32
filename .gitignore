@@ -7,4 +7,6 @@ Win32
 Debug
 Release
 
-
+NPFInstall.log
+*.exe
+msbuild.log
