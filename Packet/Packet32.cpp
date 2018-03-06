@@ -1010,7 +1010,7 @@ VOID PacketLoadLibrariesDynamically()
 	}
 
 	//
-	// Locate GetAdaptersAddresses dinamically since it is not present in Win2k
+	// Locate GetAdaptersAddresses dynamically since it is not present in Win2k
 	//
 
 #ifdef HAVE_IPHELPER_API
