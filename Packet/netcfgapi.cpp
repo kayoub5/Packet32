@@ -264,7 +264,7 @@ HRESULT HrInstallNetComponent(IN INetCfg* pnc, IN const GUID* pguidClass, IN LPC
 			// part of Inf name after it is copied.
 		   )
 		{
-			dwError = GetLastError();
+			dwError = GetLastError(); // The above stuff only works if the driver is signed.
 			hr = HRESULT_FROM_WIN32(dwError);
 			TRACE_PRINT1("SetupCopyOEMInfW: error, errCode = 0x%08x.", hr);
 		}
