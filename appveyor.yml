@@ -48,10 +48,9 @@ install:
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
-  - cmd: msbuild /nologo /maxcpucount /verbosity:quiet /consoleloggerparameters:ErrorsOnly;NoItemAndPropertyList;NoSummary;Verbosity=minimal /fileLogger /fileloggerparameters:Append;NoItemAndPropertyList;NoSummary;Verbosity=normal;Encoding=UTF-8 /target:"Rebuild" /property:platform=x86;Configuration="Debug" Packet32.sln & if not %errorlevel% == 0 type msbuild.log
-  - cmd: msbuild /nologo /maxcpucount /verbosity:quiet /consoleloggerparameters:ErrorsOnly;NoItemAndPropertyList;NoSummary;Verbosity=minimal /fileLogger /fileloggerparameters:Append;NoItemAndPropertyList;NoSummary;Verbosity=normal;Encoding=UTF-8 /target:"Rebuild" /property:platform=x64;Configuration="Debug" Packet32.sln & if not %errorlevel% == 0 type msbuild.log
+  - cmd: msbuild /nologo /maxcpucount /verbosity:quiet /consoleloggerparameters:NoItemAndPropertyList;NoSummary;Verbosity=minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - cmd: msbuild /nologo /maxcpucount /verbosity:quiet /consoleloggerparameters:NoItemAndPropertyList;NoSummary;Verbosity=minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 artifacts:
-  - path: msbuild.log
   - path: Win32
   - path: x64
