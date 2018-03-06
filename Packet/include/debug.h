@@ -7,9 +7,15 @@
 #ifndef __PACKET_DEBUG_393073863432093179878957
 #define __PACKET_DEBUG_393073863432093179878957
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #if defined(_DBG) || defined(_DEBUG_TO_FILE)
 
 #include <stdio.h>
+#include <stdlib.h> // getenv() and _MAX_PATH
+
 #include <windows.h>
 
 #include <tchar.h>
@@ -34,11 +40,11 @@ static VOID OutputDebugStringV(LPCTSTR Format, ...)
 
 	do
 	{
-
+//XXX - this needs fixing. Need to replace hardcoded filenames with dynamic path
 #ifdef _CONSOLE
-		if (_tfopen_s(&f, _T("C:\\Program Files\\Npcap\\NPFInstall.log"), _T("a,ccs=UTF-8")) == 0)
+		if (_tfopen_s(&f, _T("NPFInstall.log"), _T("a,ccs=UTF-8")) == 0)
 #else
-		if (_tfopen_s(&f, _T("C:\\Program Files\\Npcap\\Packet.log"), _T("a,ccs=UTF-8")) == 0)
+		if (_tfopen_s(&f, _T("Packet.log"), _T("a,ccs=UTF-8")) == 0)
 #endif
 			break;
 
