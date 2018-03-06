@@ -1,0 +1,70 @@
+Datetime: 3/7/2018 2:28:53 AM
+Operation: Write Value
+Process: [7892]C:\Windows\System32\svchost.exe
+Parent: [760]C:\Windows\System32\services.exe
+Thread Id: 15120
+Key: \REGISTRY\MACHINE\SYSTEM\ControlSet001\Services\Tcpip\Parameters\Interfaces\{0a4e7d60-bb39-4aa8-b72a-5c0af99e6282}
+Value: NameServer
+Rule: [%OPR%: WRITE_VALUE] [%EXE%: *] [%KEY%: *\SYSTEM\ControlSet*\Services\Tcpip\*] [%VAL%: NameServer]
+
+
+Datetime: 3/7/2018 2:29:14 AM
+Operation: Write Value
+Process: [6976]C:\Program Files\Npcap\NPFInstall.exe
+Parent: [5396]C:\Users\Ali\projects\CI_tests\latest-npcap-installer.exe
+Thread Id: 7200
+Key: \REGISTRY\MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce
+Value: GrpConv
+Rule: [%OPR%: WRITE_VALUE] [%EXE%: *] [%KEY%: *\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce*] [%VAL%: *]
+
+
+Datetime: 3/7/2018 2:29:19 AM
+Operation: Write Value
+Process: [760]C:\Windows\System32\services.exe
+Parent: [680]C:\Windows\System32\wininit.exe
+Thread Id: 14604
+Key: \REGISTRY\MACHINE\SYSTEM\ControlSet001\Services\npf
+Value: ImagePath
+Rule: [%OPR%: WRITE_VALUE] [%EXE%: *] [%KEY%: *\SYSTEM\ControlSet*\Services\*] [%VAL%: ImagePath]
+
+
+Datetime: 3/7/2018 2:29:23 AM
+Operation: Write Value
+Process: [760]C:\Windows\System32\services.exe
+Parent: [680]C:\Windows\System32\wininit.exe
+Thread Id: 13616
+Key: \REGISTRY\MACHINE\SYSTEM\ControlSet001\Services\npf_wifi
+Value: ImagePath
+Rule: [%OPR%: WRITE_VALUE] [%EXE%: *] [%KEY%: *\SYSTEM\ControlSet*\Services\*] [%VAL%: ImagePath]
+
+
+Datetime: 3/7/2018 2:29:24 AM
+Operation: Write Value
+Process: [13776]C:\Program Files\Npcap\NPFInstall2.exe
+Parent: [5396]C:\Users\Ali\projects\CI_tests\latest-npcap-installer.exe
+Thread Id: 2688
+Key: \REGISTRY\MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce
+Value: GrpConv
+Rule: [%OPR%: WRITE_VALUE] [%EXE%: *] [%KEY%: *\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce*] [%VAL%: *]
+
+
+Datetime: 3/7/2018 2:29:28 AM
+Operation: Write Value
+Process: [760]C:\Windows\System32\services.exe
+Parent: [680]C:\Windows\System32\wininit.exe
+Thread Id: 14604
+Key: \REGISTRY\MACHINE\SYSTEM\ControlSet001\Services\npcap
+Value: ImagePath
+Rule: [%OPR%: WRITE_VALUE] [%EXE%: *] [%KEY%: *\SYSTEM\ControlSet*\Services\*] [%VAL%: ImagePath]
+
+
+Datetime: 3/7/2018 2:29:31 AM
+Operation: Write Value
+Process: [760]C:\Windows\System32\services.exe
+Parent: [680]C:\Windows\System32\wininit.exe
+Thread Id: 13616
+Key: \REGISTRY\MACHINE\SYSTEM\ControlSet001\Services\npcap_wifi
+Value: ImagePath
+Rule: [%OPR%: WRITE_VALUE] [%EXE%: *] [%KEY%: *\SYSTEM\ControlSet*\Services\*] [%VAL%: ImagePath]
+
+
