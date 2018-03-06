@@ -1,3 +1,39 @@
+=======================================================
+First and foremost:
+Merged changes of Npcap/master until:
+
+SHA-1: 63e8278e668b20a9afed3884358242caa7107234
+Message: Revert define of NPCAP_OEM, it did less than nothing.
+Author: Daniel Miller
+Date: 11/28/2017 6:27:46 AM
+
+=======================================================
+get rid of setupapi bullshit
+
+
+def file/exported functions in public header (Packet32.h) do not add up
+currently missing/ unexported/ weird:
+
+missing/unexported
+------------------
+PacketStartService
+PacketGetFileVersion
+NpcapGetLoopbackInterfaceName
+
+weird
+-----
+PacketLibraryVersion (segfaults, although exported)
+
+
+
+https://github.com/dokan-dev/dokany/wiki/Build +1
+
+!!!!!!
+https://github.com/openvswitch/ovs +1
+http://docs.openvswitch.org/en/latest/intro/install/windows/
+http://docs.openvswitch.org/en/latest/topics/windows/
+!!!!!!
+
 Avoid fetching tags from remote npcap
 http://git.661346.n2.nabble.com/git-fetch-default-globally-to-no-tags-td7621457.html
 
